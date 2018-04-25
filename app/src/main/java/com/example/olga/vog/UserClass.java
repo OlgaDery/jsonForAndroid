@@ -2,10 +2,16 @@ package com.example.olga.vog;
 
 import com.google.gson.annotations.Expose;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
-public class UserClass implements User {
+//This is a concrete implementation of the User interface. We are using the " @Expose" annotations to mark the fields
+//have to be presented in the JSON object.
+
+public class UserClass implements User, Serializable {
+    //In some cases in is better to implement Parselable instead of Serializable to store Java objects in the intent and to
+    //transfer between the components
 
     @Expose
     private String ID;
@@ -16,6 +22,8 @@ public class UserClass implements User {
     @Expose
     private Set<FeedItemClass> body;
 
+    //Empty public constructor is required acording to Java documentation to use Gson to serialize and deserialize Java
+    // and JSON objects
     public UserClass () {
 
     }
@@ -35,7 +43,6 @@ public class UserClass implements User {
         return userName;
     }
 
-   // @Override
     public Set<FeedItemClass> getBody() {
         return body;
     }
@@ -54,11 +61,12 @@ public class UserClass implements User {
 
     @Override
     public boolean equals(Object o) {
+        //As we are going to process the collections of the objects of this class, we need to override equals
+        // //and hashCode methods.
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserClass userClass = (UserClass) o;
-        return Objects.equals(ID, userClass.ID) &&
-                Objects.equals(userName, userClass.userName);
+        return Objects.equals(ID, userClass.ID);
     }
 
     @Override

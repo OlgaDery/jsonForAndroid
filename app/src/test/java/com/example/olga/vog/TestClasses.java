@@ -19,10 +19,9 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class TestClasses {
-  //  private static final String TAG = TestClasses.class.getSimpleName();
 
     @Test
-    public void testJSON() {
+    public void testClasses() {
 
         FeedItemClass item1 = new FeedItemClass(22, "video");
         item1.setMediaLocation("http:///");
@@ -30,12 +29,13 @@ public class TestClasses {
         FeedItemClass item2 = new FeedItemClass(24, "video");
         item2.setMediaLocation("http:///");
 
+        //Assert the proper behavior of comparing methods
         assertNotEquals(item1, item2);
 
         FeedItemClass item3 = new FeedItemClass(24, "text");
         item3.setText("bla");
-        System.out.print(item3.toString());
 
+        //Assert the proper behavior of toString() method
         assertTrue(!item3.toString().contains("mediaLocation"));
 
         UserClass user1 = new UserClass("abc", "User1");
@@ -46,10 +46,11 @@ public class TestClasses {
         UserClass user2 = new UserClass("abcd", "User1");
 
         assertNotEquals(user1, user2);
-        Set<User> users = new HashSet<>();
-        users.add(user1);
-        users.add(user2);
 
+        //To make sure that there are public no-args constructors in the class that the gson serialization works properly
+        assertNotNull(new UserClass());
+
+        assertNotNull(new FeedItemClass());
 
     }
 }

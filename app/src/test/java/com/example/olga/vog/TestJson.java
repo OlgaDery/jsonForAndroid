@@ -2,6 +2,9 @@ package com.example.olga.vog;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import org.junit.Test;
@@ -9,8 +12,11 @@ import org.junit.Test;
 import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -20,16 +26,16 @@ import static org.junit.Assert.assertTrue;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class TestJson {
-  //  private static final String TAG = TestClasses.class.getSimpleName();
 
     @Test
     public void testJSON() {
+        //tests to assure that JSON serialization and deserialization works properly
 
         FeedItemClass item1 = new FeedItemClass(22, "video");
         item1.setMediaLocation("http:///");
 
         FeedItemClass item2 = new FeedItemClass(24, "text");
-        item1.setMediaLocation("Hello");
+        item1.setText("Hello");
 
         UserClass user1 = new UserClass("abc", "User1");
         Set<FeedItemClass> set = new HashSet<>();
@@ -43,14 +49,24 @@ public class TestJson {
 
         Gson gson = new GsonBuilder().
                 excludeFieldsWithoutExposeAnnotation().create();
-        String json = gson.toJson(users);
+
+        String userJson = gson.toJson(users);
         Type type = new TypeToken<List<UserClass>>() {}.getType();
 
-        List<UserClass> fromJson = gson.fromJson(json, type);
+        List<UserClass> fromJson = gson.fromJson(userJson, type);
         for (UserClass u : fromJson) {
             if (u.getUserName().equals("User1")) {
                 assertTrue(u.getBody().size()== 2);
             }
         }
+
+        //Assert that the names of fields with null values are not included to JSON, in this item mediaLocation is null
+        String feedItemJson = gson.toJson(item2);
+        JsonElement jelement = new JsonParser().parse(feedItemJson);
+        JsonObject jobject = jelement.getAsJsonObject();
+        for (Map.Entry k: jobject.entrySet()) {
+            assertNotEquals(k.toString(), "mediaLocation");
+        }
+
     }
 }

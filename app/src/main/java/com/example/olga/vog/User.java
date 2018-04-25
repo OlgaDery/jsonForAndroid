@@ -1,6 +1,6 @@
 package com.example.olga.vog;
 
-import java.util.Set;
+//This is a template for the User classes (like DTO, entities etc).
 
 public interface User {
 
@@ -8,5 +8,4 @@ public interface User {
 
     String getUserName();
 
-   // Set<? extends FeedItem> getBody();
 }

@@ -1,8 +1,8 @@
 package com.example.olga.vog;
 
-import java.util.Set;
 
 public interface FeedItem {
+    //This is a template for the FeedItem classes (like DTO, entities etc).
 
     int getID ();
 
@@ -12,5 +12,4 @@ public interface FeedItem {
 
     String getText();
 
-  //  Set<User> getUsers();
 }

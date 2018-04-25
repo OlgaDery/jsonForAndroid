@@ -1,5 +1,7 @@
 package com.example.olga.vog;
 
+//This class contains the JSON string
+
 public class JSON {
     public static String json = "[" +
             "{" +
